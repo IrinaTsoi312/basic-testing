@@ -1,52 +1,44 @@
 // Uncomment the code below and write your tests
-// import { readFileAsynchronously, doStuffByTimeout, doStuffByInterval } from '.';
+import { readFileAsynchronously } from '06-mocking-node-api';
+import * as fs from 'fs';
+import * as path from 'path';
 
-describe('doStuffByTimeout', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
+jest.mock('fs', () => ({
+  ...jest.requireActual<typeof fs>('fs'),
+  existsSync: jest.fn(),
+  readFile: jest.fn(),
+}));
 
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
-  test('should set timeout with provided callback and timeout', () => {
-    // Write your test here
-  });
-
-  test('should call callback only after timeout', () => {
-    // Write your test here
-  });
-});
-
-describe('doStuffByInterval', () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
-
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
-  test('should set interval with provided callback and timeout', () => {
-    // Write your test here
-  });
-
-  test('should call callback multiple times after multiple intervals', () => {
-    // Write your test here
-  });
-});
+jest.mock('path', () => ({
+  ...jest.requireActual<typeof path>('path'),
+  join: jest.fn(),
+}));
 
 describe('readFileAsynchronously', () => {
   test('should call join with pathToFile', async () => {
-    // Write your test here
+    jest.spyOn(path, 'join').mockReturnValue('/mocked/join/path');
+
+    await readFileAsynchronously('test.txt');
+
+    expect(path.join).toHaveBeenCalledWith(expect.any(String), 'test.txt');
   });
 
   test('should return null if file does not exist', async () => {
-    // Write your test here
+    jest.spyOn(fs, 'existsSync').mockReturnValue(false);
+
+    const result = await readFileAsynchronously('nonexistent.txt');
+
+    expect(result).toBeNull();
   });
 
   test('should return file content if file exists', async () => {
-    // Write your test here
+    jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+    jest
+      .spyOn(fs.promises, 'readFile')
+      .mockResolvedValue(Buffer.from('Mocked file content'));
+
+    const result = await readFileAsynchronously('existing.txt');
+
+    expect(result).toBe('Mocked file content');
   });
 });
