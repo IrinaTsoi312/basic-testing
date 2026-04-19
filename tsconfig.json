@@ -18,6 +18,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "removeComments": true,
-    "types": ["jest"]
+    "types": ["node", "jest"],
+    "isolatedModules": true
   }
 }
