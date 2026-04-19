@@ -3,8 +3,8 @@ import { simpleCalculator, Action } from './index';
 
 describe('simpleCalculator tests', () => {
   test('should add two numbers', () => {
-    const result = simpleCalculator({ a: 1, b: 2, action: Action.Add });
-    expect(result).toBe(3);
+    const result = simpleCalculator({ a: 100, b: 2, action: Action.Add });
+    expect(result).toBe(102);
   });
 
   test('should subtract two numbers', () => {

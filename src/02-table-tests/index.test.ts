@@ -2,7 +2,7 @@
 import {  simpleCalculator, Action } from './index';
 
 const testCases = [
-  { a: 1, b: 2, action: Action.Add, expected: 3 },
+  { a: 100, b: 2, action: Action.Add, expected: 102 },
   { a: 5, b: 4, action: Action.Subtract, expected: 1 },
   { a: 6, b: 7, action: Action.Multiply, expected: 42 },
   { a: 8, b: 1, action: Action.Divide, expected: 8 },
